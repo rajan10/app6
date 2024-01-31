@@ -1,0 +1,43 @@
+<h1> Angular Forms Development</h1>
+
+{{msg}}
+<!-- /** * Form to collect book details from the user. * Contains inputs for book
+name, ISBN, and author. * Binds input values to component properties using
+ngModel. * Calls onSubmitClick() when submit button is clicked. */ 
+
+#bookForm is the template reference variable. It creates a reference to the entire form.
+
+"ngForm" is the value assigned to the template reference variable. It tells Angular to bind the form to the ngForm directive, 
+which provides additional functionality and information about the form.
+ngForm is a directive provided by Angular's FormsModule that helps in tracking the form's state and validation.
+
+The bname input has additional validation logic defined using Angular's built-in validators required, minlength, and maxlength. 
+This ensures the user enters a book name that is required, at least 5 characters, and no more than 100 characters.
+The bnameInput template reference variable is used to access the input element instance and its validation status. 
+The *ngIf structural directive shows a validation error message if the book name input is invalid.
+
+-->
+<form #bookForm="ngForm">
+  Book Name: <input type="text" [(ngModel)]="bname" name="name" required minlength="2" maxlength="100" #bnameInput="ngModel" />
+  <div *ngIf="bnameInput.errors?.['required']">Book Name is required.</div>
+  <div *ngIf="bnameInput.errors?.['minlength']">Name must be at least 2 characters long.</div>
+ 
+
+  <br />
+  Book ISBN: <input type="text" [(ngModel)]="bisbn" name="isbn" required minlength="3" maxlength="100" #bisbnInput="ngModel" />
+  <div *ngIf="bisbnInput.invalid && (bisbnInput.dirty || bisbnInput.touched)" class="alert">  </div>
+  <div *ngIf="bisbnInput.errors?.['required']">Name is required.</div>
+  <div *ngIf="bisbnInput.errors?.['minlength']">Name must be at least 3 characters long.</div>
+
+ 
+  <br />
+  Book Author:
+  <input type="text" [(ngModel)]="bauthor" name="author" required minlength="5" maxlength="100" #bauthorInput="ngModel" appForbiddenName="Jhonny"/> 
+  <div *ngIf="bauthorInput.invalid && (bauthorInput.dirty || bauthorInput.touched)" class="alert"> </div>
+  <div *ngIf="bauthorInput.errors?.['required']">Name is required.</div>
+  <div *ngIf="bauthorInput.errors?.['minlength']">Name must be at least 5 characters long.</div>
+  <div *ngIf="bauthorInput.errors?.['appForbiddenName']">Name cannot be Jhonny.</div>
+  
+<br />
+  <input type="button" value="Submit" (click)="onSubmitClick()" [disabled]="bookForm.invalid"/>
+</form>
